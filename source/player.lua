@@ -129,7 +129,7 @@ end
 function Player:incrementGifts()
     self.gifts = self.gifts + 1
     if math.fmod(self.gifts, 5) == 0 then
-        self.maxSpeed = self.maxSpeed + 20
+        self.maxSpeed = self.maxSpeed + 50
     end
     newGift()
 end
