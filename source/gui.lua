@@ -52,7 +52,7 @@ end
 function GUI:displayGameOver()
     love.graphics.setFont(self.font)
 
-    local text = "you lost D:\nyou've collected "..Player.gifts.." gifts\n\n\npress space to restart"
+    local text = "you lost D:\nbut you took "..Player.gifts.." gifts to their right time\n\n\npress space to try to take more"
     local x = ScreenWidth/2- self.font:getWidth(text) / 2
     local y = ScreenHeight/2 - self.font:getHeight(text)*3
 
