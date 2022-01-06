@@ -62,7 +62,8 @@ function love.keypressed(key)
             GameState.current = GameState.inGame
         end
     else
-        Player:flip(key)
+        if Player:flip(key) then return end
+        Player:move(key)
     end
 end
 

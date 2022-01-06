@@ -18,7 +18,8 @@ function Player:load()
     self.xScale = 1
     self.yScale = 1
 
-    self.maxSpeed = 150
+    self.initialMaxSpeed = 150
+    self.maxSpeed = self.initialMaxSpeed
     self.xVel = self.maxSpeed
     self.yVel = 0
 
@@ -41,7 +42,6 @@ function Player:load()
 end
 
 function Player:update(dt)
-    self:move(dt)
     self:applyGravity(dt)
     self:syncPhysics()
     self:animate(dt)
@@ -56,11 +56,11 @@ function Player:animate(dt)
     end
 end
 
-function Player:move(dt)
-    if love.keyboard.isDown("right") or love.keyboard.isDown("d") then
+function Player:move(key)
+    if key == "right" or key == "d" then
         self.xVel = self.maxSpeed
         self.xScale = 1
-    elseif love.keyboard.isDown("left") or love.keyboard.isDown("a") then
+    elseif key == "left" or key == "a" then
         self.xVel = -self.maxSpeed
         self.xScale = -1
     end
@@ -111,12 +111,16 @@ function Player:flip(key)
         self.physics.body:setPosition(self.x, 2*(ScreenHeight / (2 * Camera.scale)) - self.y)
         self.yScale = 1
         self.state = "future"
+
+        return true
     elseif key == "down" or key == "s" then
         if self.state == "past" then return end
 
         self.physics.body:setPosition(self.x, 2*(ScreenHeight / (2 * Camera.scale)) - self.y)
         self.yScale = -1
         self.state = "past"
+
+        return true
     end
 end
 
@@ -135,11 +139,13 @@ function Player:incrementGifts()
 end
 
 function Player:reset()
-    self.physics.body:setPosition(self.initialX, self.initialY)
     self.gifts = 0
-    self.scaleY = 1
-    self.scaleX = 1
+    self.yScale = 1
+    self.xScale = 1
+    self.maxSpeed = self.initialMaxSpeed
     self.yVel = 0
+    self.xVel = self.maxSpeed
+    self.physics.body:setPosition(self.initialX, self.initialY)
 end
 
 return Player
