@@ -104,4 +104,11 @@ function Gift.beginContact(a, b, collision)
     end
 end
 
+function Gift.resetAll()
+    for i, instance in ipairs(ActiveGifts) do 
+        instance.collected = false
+        instance.toBeRemoved = false
+    end
+end
+
 return Gift

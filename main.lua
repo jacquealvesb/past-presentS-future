@@ -5,6 +5,8 @@ local GUI = require("source/gui")
 local Player = require("source/player")
 local GiftController = require("source/giftController")
 
+GameState = { home = "home", inGame = "in_game", over = "over"}
+
 function love.load()
     World = love.physics.newWorld(0, 0)
     World:setCallbacks(beginContact)
@@ -15,7 +17,7 @@ function love.load()
     pastBackground = love.graphics.newImage("assets/background/past.png")
     futureBackground = love.graphics.newImage("assets/background/future.png")
 
-    GameOver = false
+    GameState.current = GameState.home
 
     GUI:load()
     GiftController:init()
@@ -25,34 +27,40 @@ end
 function love.update(dt)
     World:update(dt)
 
-    if GameOver then return end
-    Player:update(dt)
-    GiftController:update(dt)
+    if GameState.current == GameState.inGame then 
+        Player:update(dt)
+        GiftController:update(dt)
+    end
 end
 
 function love.draw()
-    if GameOver then
-        return
+    if GameState.current == GameState.inGame then
+        Camera:apply()
+
+        love.graphics.draw(futureBackground, -20, -8)
+
+        love.graphics.setColor(200/255, 200/255, 200/255, 1)
+        love.graphics.draw(pastBackground, -20, 2*(ScreenHeight / (2 * Camera.scale)) + 8, 0, 1, -1)
+
+        GiftController.draw()
+        Player:draw()
+        
+        Camera:clear()
     end
 
-    Camera:apply()
-
-    love.graphics.draw(futureBackground, -20, -8)
-
-    love.graphics.setColor(200/255, 200/255, 200/255, 1)
-    love.graphics.draw(pastBackground, -20, 2*(ScreenHeight / (2 * Camera.scale)) + 8, 0, 1, -1)
-
-    GiftController.draw()
-    Player:draw()
-    
-    Camera:clear()
-    
-    GUI:draw()
+    GUI:draw(GameState.current)
 end
 
 function love.keypressed(key)
     if key == "space" then
-        Player:jump()
+        if GameState.current == GameState.home then
+            GameState.current = GameState.inGame
+        elseif GameState.current == GameState.inGame then
+            Player:jump()
+        elseif GameState.current == GameState.over then
+            reset()
+            GameState.current = GameState.inGame
+        end
     else
         Player:flip(key)
     end
@@ -64,6 +72,11 @@ end
 
 function newGift()
     GiftController:new()
+end
+
+function reset() 
+    Player:reset()
+    GiftController:reset()
 end
 
 function newAnimation(imageFile, width, height, duration)

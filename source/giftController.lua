@@ -18,8 +18,8 @@ function GiftController:draw()
 end
 
 function GiftController:new()
-    local x1 = math.random(0, (ScreenWidth / Camera.scale) - self.border)
-    local x2 = math.random(0, (ScreenWidth / Camera.scale) - self.border)
+    local x1 = math.random(self.border, (ScreenWidth / Camera.scale) - self.border)
+    local x2 = math.random(self.border, (ScreenWidth / Camera.scale) - self.border)
     local y1 = math.random(self.border, (ScreenHeight / Camera.scale) - self.border)
     local y2 = 0
 
@@ -34,6 +34,10 @@ end
 
 function GiftController:checkContact(a, b, collision)
     return Gift.beginContact(a, b, collision)
+end
+
+function GiftController:reset()
+    Gift.resetAll()
 end
 
 return GiftController

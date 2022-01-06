@@ -11,9 +11,28 @@ function GUI:load()
     self.collectedGifts.y = 20
 end
 
+function GUI:draw(state)
+    if state == GameState.home then
+        self:displayHomeMessage()
+    elseif state == GameState.inGame then
+        self:displayCollectedGifts()
+    elseif state == GameState.over then
+        self:displayGameOver()
+    end
+end
 
-function GUI:draw()
-    self:displayCollectedGifts()
+function GUI:displayHomeMessage()
+    love.graphics.setFont(self.font)
+
+    local text = "press space to start...\n\n\n\n...and don't get out of the screen!"
+    local x = ScreenWidth/2- self.font:getWidth(text) / 2
+    local y = ScreenHeight/2 - self.font:getHeight(text)*3
+
+    love.graphics.setColor(0,0,0,0.5)
+    love.graphics.print(text, x + 2, y + 2) 
+
+    love.graphics.setColor(1,1,1,1)
+    love.graphics.print(text, x, y) 
 end
 
 function GUI:displayCollectedGifts()
@@ -28,6 +47,20 @@ function GUI:displayCollectedGifts()
 
     love.graphics.setColor(1,1,1,1)
     love.graphics.print(collectedGifts, x, y) 
+end
+
+function GUI:displayGameOver()
+    love.graphics.setFont(self.font)
+
+    local text = "you lost D:\nyou've collected "..Player.gifts.." gifts\n\n\npress space to restart"
+    local x = ScreenWidth/2- self.font:getWidth(text) / 2
+    local y = ScreenHeight/2 - self.font:getHeight(text)*3
+
+    love.graphics.setColor(0,0,0,0.5)
+    love.graphics.print(text, x + 2, y + 2) 
+
+    love.graphics.setColor(1,1,1,1)
+    love.graphics.print(text, x, y) 
 end
 
 return GUI

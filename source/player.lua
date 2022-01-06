@@ -10,8 +10,10 @@ function Player:load()
 
     self.width = self.animations.width
     self.height = self.animations.height
-    self.x = ScreenWidth/(2 * Camera.scale)
-    self.y = ScreenHeight / (2 * Camera.scale) - self.height/2
+    self.initialX = ScreenWidth/(2 * Camera.scale)
+    self.initialY = ScreenHeight / (2 * Camera.scale) - self.height/2
+    self.x = self.initialX
+    self.y = self.initialY
     self.xScale = 1
     self.yScale = 1
 
@@ -76,7 +78,7 @@ function Player:syncPhysics()
     end
 
     if self.x < -self.width or self.x > (ScreenWidth / Camera.scale) + self.width then
-        GameOver = true
+        GameState.current = GameState.over
     end
 end
 
@@ -125,6 +127,14 @@ function Player:incrementGifts()
         self.maxSpeed = self.maxSpeed + 20
     end
     newGift()
+end
+
+function Player:reset()
+    self.physics.body:setPosition(self.initialX, self.initialY)
+    self.gifts = 0
+    self.scaleY = 1
+    self.scaleX = 1
+    self.yVel = 0
 end
 
 return Player
