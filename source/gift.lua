@@ -40,6 +40,7 @@ function Gift.new(x1, y1, x2, y2)
     if y1 > ScreenHeight / (2 * Camera.scale) then
         instance.yScale = -instance.yScale
     elseif y2 > ScreenHeight / (2 * Camera.scale) then
+        instance.image = love.graphics.newImage("assets/gift-baw.png")
         instance.shadow.yScale = -instance.shadow.yScale
     end
 
