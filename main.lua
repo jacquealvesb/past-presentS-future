@@ -11,6 +11,9 @@ function love.load()
     ScreenWidth = love.graphics:getWidth()
     ScreenHeight = love.graphics:getHeight()
 
+    pastBackground = love.graphics.newImage("assets/background/past.png")
+    futureBackground = love.graphics.newImage("assets/background/future.png")
+
     GameOver = false
 
     GiftController:init()
@@ -32,11 +35,10 @@ function love.draw()
 
     Camera:apply()
 
-    love.graphics.setColor(15/255, 56/255, 128/255, 1)
-    love.graphics.rectangle("fill", 0, 0, ScreenWidth, ScreenHeight / (2 * Camera.scale))
+    love.graphics.draw(futureBackground, -20, -8)
 
-    love.graphics.setColor(164/255, 175/255, 181/255, 1)
-    love.graphics.rectangle("fill", 0, ScreenHeight / (2 * Camera.scale), ScreenWidth, ScreenHeight / (2 * Camera.scale))
+    love.graphics.setColor(200/255, 200/255, 200/255, 1)
+    love.graphics.draw(pastBackground, -20, 2*(ScreenHeight / (2 * Camera.scale)) + 8, 0, 1, -1)
 
     GiftController.draw()
     Player:draw()
