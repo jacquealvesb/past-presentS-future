@@ -1,6 +1,7 @@
 local Player = {}
 
 local Camera = require("source/camera")
+local Sound = require("source/sound")
 
 function Player:load()
     self.animations = {width = 16, height = 16}
@@ -35,6 +36,8 @@ function Player:load()
     self.physics.body:setFixedRotation(true)
     self.physics.shape = love.physics.newRectangleShape(self.width, self.height)
     self.physics.fixture = love.physics.newFixture(self.physics.body, self.physics.shape)
+
+    Sound:init("jump", "sounds/jump.wav", "static")
 end
 
 function Player:update(dt)
@@ -93,9 +96,11 @@ function Player:jump()
         self.grounded = false
         self.hasDoubleJump = true
         self.yVel = self.jumpAmount * self.yScale
+        Sound:play("jump", "sfx", "0.2")
     elseif self.hasDoubleJump then
         self.yVel = self.jumpAmount * self.yScale * 0.8
         self.hasDoubleJump = false
+        Sound:play("jump", "sfx", "0.1")
     end
 end
 

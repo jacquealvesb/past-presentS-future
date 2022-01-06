@@ -3,7 +3,13 @@ Gift.__index = Gift
 
 local Camera = require("source/camera")
 local Player = require("source/player")
+local Sound = require("source/sound")
 local ActiveGifts = {}
+
+function Gift.init()
+    Sound:init("get-gift", "sounds/get-gift.wav", "static")
+    Sound:init("get-shadow", "sounds/get-shadow.wav", "static")
+end
 
 function Gift.new(x1, y1, x2, y2)
     local instance = setmetatable({}, Gift)
@@ -82,6 +88,7 @@ end
 function Gift:destroy()
     for i, instance in ipairs(ActiveGifts) do
         if instance == self then
+            Sound:play("get-gift", "sfx", "0.5")
             Player:incrementGifts()
             self.shadow.physics.body:destroy()
             self.physics.body:destroy()
@@ -94,7 +101,10 @@ function Gift.beginContact(a, b, collision)
     for i, instance in ipairs(ActiveGifts) do 
         if a == Player.physics.fixture or b == Player.physics.fixture then
             if a == instance.physics.fixture or b == instance.physics.fixture then
-                instance.collected = true
+                if instance.collected == false then
+                    Sound:play("get-shadow", "sfx", "0.5")
+                    instance.collected = true
+                end
                 return true
             elseif instance.collected and (a == instance.shadow.physics.fixture or b == instance.shadow.physics.fixture) then
                 instance.toBeRemoved = true

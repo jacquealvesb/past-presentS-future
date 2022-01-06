@@ -4,6 +4,8 @@ local Camera = require("source/camera")
 local Gift = require("source/gift")
 
 function GiftController:init()
+    Gift.init()
+    
     self.border = 30
     math.randomseed(os.time())
     self:new()
