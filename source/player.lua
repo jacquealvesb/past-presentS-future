@@ -4,8 +4,8 @@ local Camera = require("source/camera")
 
 function Player:load()
     self.animations = {width = 16, height = 16}
-    self.animations["future"] = newAnimation("assets/santa.png", self.animations.width, self.animations.height, 0.4)
-    self.animations["past"] = newAnimation("assets/santa-baw.png", self.animations.width, self.animations.height, 0.4)
+    self.animations["future"] = newAnimation("assets/player/player.png", self.animations.width, self.animations.height, 0.4)
+    self.animations["past"] = newAnimation("assets/player/player-baw.png", self.animations.width, self.animations.height, 0.4)
     self.state = "future"
 
     self.width = self.animations.width
@@ -124,7 +124,6 @@ function Player:incrementGifts()
     if math.fmod(self.gifts, 5) == 0 then
         self.maxSpeed = self.maxSpeed + 20
     end
-    print(self.gifts)
     newGift()
 end
 

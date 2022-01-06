@@ -10,7 +10,7 @@ function Gift.new(x1, y1, x2, y2)
     instance.x = x1
     instance.y = y1 
     instance.yScale = 1
-    instance.image = love.graphics.newImage("assets/gift-color.png")
+    instance.image = love.graphics.newImage("assets/gift/gift-color.png")
     instance.width = instance.image:getWidth()
     instance.height = instance.image:getHeight()
 
@@ -28,7 +28,7 @@ function Gift.new(x1, y1, x2, y2)
     instance.shadow.x = x2
     instance.shadow.y = y2
     instance.shadow.yScale = 1
-    instance.shadow.image = love.graphics.newImage("assets/gift-shadow.png")
+    instance.shadow.image = love.graphics.newImage("assets/gift/gift-shadow.png")
 
     instance.shadow.physics = {}
     instance.shadow.physics.body = love.physics.newBody(World, instance.shadow.x, instance.shadow.y, "static")
@@ -40,7 +40,7 @@ function Gift.new(x1, y1, x2, y2)
     if y1 > ScreenHeight / (2 * Camera.scale) then
         instance.yScale = -instance.yScale
     elseif y2 > ScreenHeight / (2 * Camera.scale) then
-        instance.image = love.graphics.newImage("assets/gift-baw.png")
+        instance.image = love.graphics.newImage("assets/gift/gift-baw.png")
         instance.shadow.yScale = -instance.shadow.yScale
     end
 

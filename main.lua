@@ -1,6 +1,7 @@
 love.graphics.setDefaultFilter("nearest", "nearest")
 
 local Camera = require("source/camera")
+local GUI = require("source/gui")
 local Player = require("source/player")
 local GiftController = require("source/giftController")
 
@@ -16,6 +17,7 @@ function love.load()
 
     GameOver = false
 
+    GUI:load()
     GiftController:init()
     Player:load()
 end
@@ -44,6 +46,8 @@ function love.draw()
     Player:draw()
     
     Camera:clear()
+    
+    GUI:draw()
 end
 
 function love.keypressed(key)
